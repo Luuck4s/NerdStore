@@ -1,4 +1,5 @@
-﻿using NerdStore.Core.Entities;
+﻿using Flunt.Validations;
+using NerdStore.Core.Entities;
 using NerdStore.Core.Interfaces;
 
 namespace NerdStore.Catalogo.Domain.Entities;
@@ -26,6 +27,8 @@ public class Produto : Entity, IAggregateRoot
         Valor = valor;
         DataCadastro = dataCadastro;
         Imagem = imagem;
+        
+        Validar();
     }
 
     public void Ativar() => Ativo = true;
@@ -60,6 +63,33 @@ public class Produto : Entity, IAggregateRoot
         return QuantidadeEstoque >= quantidade;
     }
 
-    public override void Validar()
-    { }
+    public sealed override void Validar()
+    {
+        AddNotifications(
+            new Contract<Produto>()
+                .Requires()
+                .IsNotNullOrWhiteSpace(
+                    Nome,
+                    "Produto.Nome",
+                    "Nome não pode ser nulo ou vazio")
+                .IsNotNullOrWhiteSpace(
+                    Descricao,
+                    "Produto.Descricao",
+                    "Descricao não pode ser nulo ou vazio")
+                .IsNotNullOrWhiteSpace(
+                    Imagem,
+                    "Produto.Imagem",
+                    "Imagem não pode ser nulo ou vazio")
+                .AreNotEquals(
+                    CategoriaId, 
+                    Guid.Empty, 
+                    "Produto.CategoriaId", 
+                    "Categoria do produto não pode ser inexistente")
+                .IsGreaterThan(
+                    Valor,
+                    0,
+                    "Produto.Valor", 
+                    "Valor do produto não pode ser zero")
+        );
+    }
 }

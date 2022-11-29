@@ -1,6 +1,8 @@
-﻿namespace NerdStore.Core.Entities;
+﻿using Flunt.Notifications;
 
-public abstract class Entity
+namespace NerdStore.Core.Entities;
+
+public abstract class Entity: Notifiable<Notification>
 {
     public Guid Id { get; private set; }
 
