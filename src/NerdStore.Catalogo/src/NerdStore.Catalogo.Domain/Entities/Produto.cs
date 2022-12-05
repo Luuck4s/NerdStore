@@ -65,6 +65,7 @@ public class Produto : Entity, IAggregateRoot
 
     public sealed override void Validar()
     {
+        
         AddNotifications(
             new Contract<Produto>()
                 .Requires()
@@ -91,5 +92,6 @@ public class Produto : Entity, IAggregateRoot
                     "Produto.Valor", 
                     "Valor do produto não pode ser zero")
         );
+        AddNotifications(Dimensoes);
     }
 }
