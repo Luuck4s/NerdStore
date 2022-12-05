@@ -9,6 +9,11 @@ public class Categoria: Entity
 
     public int Codigo { get; private set; }
 
+    public ICollection<Produto> Produtos { get; private set; }
+
+    protected Categoria()
+    { }
+
     public Categoria(string nome, int codigo)
     {
         Nome = nome;
