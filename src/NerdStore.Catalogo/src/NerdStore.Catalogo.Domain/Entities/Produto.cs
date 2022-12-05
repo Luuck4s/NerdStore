@@ -1,4 +1,5 @@
 ﻿using Flunt.Validations;
+using NerdStore.Catalogo.Domain.ValueObjects;
 using NerdStore.Core.Entities;
 using NerdStore.Core.Interfaces;
 
@@ -15,10 +16,11 @@ public class Produto : Entity, IAggregateRoot
     public string Imagem { get; private set; }
     public int QuantidadeEstoque { get; private set; }
     public Categoria Categoria { get; private set; }
+    public Dimensoes Dimensoes { get; private set; }
 
     public Produto(
         string nome, string descricao, bool ativo, decimal valor, Guid categoriaId, DateTime dataCadastro,
-        string imagem)
+        string imagem, Dimensoes dimensoes)
     {
         CategoriaId = categoriaId;
         Nome = nome;
@@ -27,6 +29,7 @@ public class Produto : Entity, IAggregateRoot
         Valor = valor;
         DataCadastro = dataCadastro;
         Imagem = imagem;
+        Dimensoes = dimensoes;
         
         Validar();
     }
@@ -58,10 +61,7 @@ public class Produto : Entity, IAggregateRoot
         QuantidadeEstoque += quantidade;
     }
 
-    public bool PossuiEstoque(int quantidade)
-    {
-        return QuantidadeEstoque >= quantidade;
-    }
+    public bool PossuiEstoque(int quantidade) => QuantidadeEstoque >= quantidade;
 
     public sealed override void Validar()
     {
