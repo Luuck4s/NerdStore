@@ -1,4 +1,5 @@
-﻿using NerdStore.Catalogo.Domain.Events;
+﻿using System.Diagnostics.CodeAnalysis;
+using NerdStore.Catalogo.Domain.Events;
 using NerdStore.Catalogo.Domain.Repositories;
 using NerdStore.Core.EventHandler;
 
@@ -9,19 +10,15 @@ public class EstoqueService: IEstoqueService
     private readonly IProdutoRepository _produtoRepository;
     private readonly IMediatRHandler _mediatR;
 
-    public EstoqueService(IProdutoRepository produtoRepository)
+    public EstoqueService(IProdutoRepository produtoRepository, IMediatRHandler mediatR)
     {
         _produtoRepository = produtoRepository;
+        _mediatR = mediatR;
     }
 
     public async Task<bool> DebitarEstoque(Guid produtoId, int quantidade)
     {
         var produto = await _produtoRepository.ObterPorId(produtoId);
-
-        if (produto is null)
-        {
-            return false;
-        }
 
         if (produto.PossuiEstoque(quantidade) is false)
         {
@@ -44,17 +41,13 @@ public class EstoqueService: IEstoqueService
     {
         var produto = await _produtoRepository.ObterPorId(produtoId);
 
-        if (produto is null)
-        {
-            return false;
-        }
-
         produto.ReporEstoque(quantidade);
 
         _produtoRepository.Atualizar(produto);
         return await _produtoRepository.UnitOfWork.Commit();
     }
 
+    [ExcludeFromCodeCoverage]
     public void Dispose()
     {
         _produtoRepository.Dispose();

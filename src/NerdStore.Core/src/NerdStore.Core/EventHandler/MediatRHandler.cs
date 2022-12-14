@@ -1,8 +1,10 @@
-﻿using MediatR;
+﻿using System.Diagnostics.CodeAnalysis;
+using MediatR;
 using NerdStore.Core.Messages;
 
 namespace NerdStore.Core.EventHandler;
 
+[ExcludeFromCodeCoverage]
 public class MediatRHandler: IMediatRHandler
 {
     private readonly IMediator _mediator;

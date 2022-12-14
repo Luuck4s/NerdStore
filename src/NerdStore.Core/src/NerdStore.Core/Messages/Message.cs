@@ -1,5 +1,8 @@
-﻿namespace NerdStore.Core.Messages;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace NerdStore.Core.Messages;
+
+[ExcludeFromCodeCoverage]
 public abstract class Message
 {
     public string MessageType { get; protected set; }

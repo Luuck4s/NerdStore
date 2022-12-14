@@ -1,7 +1,9 @@
-﻿using Flunt.Notifications;
+﻿using System.Diagnostics.CodeAnalysis;
+using Flunt.Notifications;
 
 namespace NerdStore.Core.Entities;
 
+[ExcludeFromCodeCoverage]
 public abstract class Entity: Notifiable<Notification>
 {
     public Guid Id { get; private set; }
