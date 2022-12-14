@@ -35,4 +35,4 @@ jobs:
         type: simplecov
         result_path: coverage/coverage.json
         min_coverage: 60
-        token: ${{ github.token }}
+        token: ${{  secrets.GITHUB_TOKEN }}
