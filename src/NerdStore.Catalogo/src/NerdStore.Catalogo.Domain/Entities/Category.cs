@@ -3,36 +3,36 @@ using NerdStore.Core.Entities;
 
 namespace NerdStore.Catalogo.Domain.Entities;
 
-public class Categoria: Entity
+public class Category: Entity
 {
-    public string Nome { get; private set; }
+    public string Name { get; private set; }
 
-    public int Codigo { get; private set; }
+    public int Code { get; private set; }
 
-    public ICollection<Produto> Produtos { get; private set; }
+    public ICollection<Product> Products { get; private set; }
 
-    protected Categoria()
+    protected Category()
     { }
 
-    public Categoria(string nome, int codigo)
+    public Category(string name, int code)
     {
-        Nome = nome;
-        Codigo = codigo;
+        Name = name;
+        Code = code;
 
-        Validar();
+        Validate();
     }
 
-    public override void Validar()
+    public sealed override void Validate()
     {
         AddNotifications(
-            new Contract<Categoria>()
+            new Contract<Category>()
                 .Requires()
                 .IsNotNullOrWhiteSpace(
-                    Nome,
+                    Name,
                     "Categoria.Nome",
                     "Nome não pode ser nulo ou vazio")
                 .IsGreaterThan(
-                    Codigo,
+                    Code,
                     0,
                     "Categoria.Codigo",
                     "Código precisa ser um valor maior que zero")
@@ -41,6 +41,6 @@ public class Categoria: Entity
 
     public override string ToString()
     {
-        return $"{Nome} - {Codigo}";
+        return $"{Name} - {Code}";
     }
 }

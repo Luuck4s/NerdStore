@@ -4,51 +4,51 @@ using NerdStore.Core.ValueObjects;
 
 namespace NerdStore.Catalogo.Domain.ValueObjects;
 
-public class Dimensoes: ValueObject
+public class Dimensions: ValueObject
 {
-    public decimal Altura { get; private set; }
-    public decimal Largura { get; private set; }
-    public decimal Profundidade { get; private set; }
+    public decimal Height { get; private set; }
+    public decimal Width { get; private set; }
+    public decimal Depth { get; private set; }
 
-    public Dimensoes(decimal profundidade, decimal largura, decimal altura)
+    public Dimensions(decimal depth, decimal width, decimal height)
     {
-        Profundidade = profundidade;
-        Largura = largura;
-        Altura = altura;
+        Depth = depth;
+        Width = width;
+        Height = height;
         
-        Validar();
+        Validate();
     }
     
-    public sealed override void Validar()
+    public sealed override void Validate()
     {
         AddNotifications(
-            new Contract<Produto>()
+            new Contract<Product>()
                 .Requires()
                 .IsGreaterThan(
-                    Altura,
+                    Height,
                     0,
                     "Dimensoes.Altura", 
                     "Altura precisa ser maior que 0")
                 .IsGreaterThan(
-                    Largura,
+                    Width,
                     0,
                     "Dimensoes.Largura", 
                     "Largura precisa ser maior que 0")
                 .IsGreaterThan(
-                    Profundidade,
+                    Depth,
                     0,
                     "Dimensoes.Profundidade", 
                     "Profundidade precisa ser maior que 0")
         );
     }
 
-    private string DescricaoFormatada()
+    private string FormattedDescription()
     {
-        return $"LxAxP: {Largura} x {Altura} x {Profundidade}";
+        return $"LxAxP: {Width} x {Height} x {Depth}";
     }
 
     public override string ToString()
     {
-        return DescricaoFormatada();
+        return FormattedDescription();
     }
 }

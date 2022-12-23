@@ -13,19 +13,19 @@ namespace tests.Catalogo.Domain.EventHandlers;
 
 public class ProdutoAbaixoEstoqueEventTests
 {
-    private readonly Mock<IProdutoRepository> _produtoRepository = new();
-    private readonly Mock<ILogger<ProdutoEventHandler>> _logger = new();
-    private readonly ProdutoEventHandler _handler;
+    private readonly Mock<IProductRepository> _produtoRepository = new();
+    private readonly Mock<ILogger<ProductEventHandler>> _logger = new();
+    private readonly ProductEventHandler _handler;
     
     public ProdutoAbaixoEstoqueEventTests()
     {
-        _handler = new ProdutoEventHandler(_produtoRepository.Object, _logger.Object);
+        _handler = new ProductEventHandler(_produtoRepository.Object, _logger.Object);
     }
     
     [Fact]
     public async void Handle_GivenValidEvent_ShouldBeLogInformation()
     {
-        var product = new Produto(
+        var product = new Product(
             "xpto",
             "xpto",
             true,
@@ -35,9 +35,9 @@ public class ProdutoAbaixoEstoqueEventTests
             "xpto",
             new(1, 1 , 1)
         );
-        var produtoAbaixoEstoqueEvent = new ProdutoAbaixoEstoqueEvent(Guid.NewGuid(), 10);
+        var produtoAbaixoEstoqueEvent = new LowStockProductEvent(Guid.NewGuid(), 10);
 
-        _produtoRepository.Setup(x => x.ObterPorId(IsAny<Guid>()))
+        _produtoRepository.Setup(x => x.GetById(IsAny<Guid>()))
             .ReturnsAsync(product);
 
         await _handler.Handle(produtoAbaixoEstoqueEvent, CancellationToken.None);

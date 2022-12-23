@@ -14,7 +14,7 @@ public class MediatRHandler: IMediatRHandler
         _mediator = mediator;
     }
 
-    public async Task PublicarEvento<T>(T evento) where T : Event
+    public async Task PublishEvent<T>(T evento) where T : Event
     {
         await _mediator.Publish(evento);
     }

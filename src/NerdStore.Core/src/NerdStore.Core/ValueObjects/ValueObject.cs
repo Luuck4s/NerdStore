@@ -6,5 +6,5 @@ namespace NerdStore.Core.ValueObjects;
 [ExcludeFromCodeCoverage]
 public abstract class ValueObject: Notifiable<Notification>
 {
-    public abstract void Validar();
+    public abstract void Validate();
 }

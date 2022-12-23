@@ -14,7 +14,7 @@ public class ProdutoTests
     [Fact]
     public void Validar_GivenInvalidValues_ShouldBeInvalidProduct()
     {
-        var product = new Produto(
+        var product = new Product(
             GenericInvalidString,
             GenericInvalidString,
             false,
@@ -32,7 +32,7 @@ public class ProdutoTests
     [Fact]
     public void Validar_GivenInvalidDimensoesValues_ShouldBeInvalidProduct()
     {
-        var product = new Produto(
+        var product = new Product(
             GenericInvalidString,
             GenericInvalidString,
             false,
@@ -50,7 +50,7 @@ public class ProdutoTests
     [Fact]
     public void Validar_GivenValidValues_ShouldBeValidProduct()
     {
-        var product = new Produto(
+        var product = new Product(
             GenericString,
             GenericString,
             true,
