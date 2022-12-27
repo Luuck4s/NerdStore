@@ -9,6 +9,7 @@ public class Dimensions: ValueObject
     public decimal Height { get; private set; }
     public decimal Width { get; private set; }
     public decimal Depth { get; private set; }
+    public Product Product { get; private set; }
 
     public Dimensions(decimal depth, decimal width, decimal height)
     {

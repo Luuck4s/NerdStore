@@ -5,6 +5,8 @@ using NerdStore.Catalogo.Domain.Repositories;
 
 namespace NerdStore.Catalogo.Api.Controllers;
 
+[ApiController]
+[Route("v1/categories")]
 public class CategoriesController: ControllerBase
 {
     private IProductRepository _productRepository;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NerdStore.Catalogo.Domain.Entities;
+using NerdStore.Catalogo.Domain.ValueObjects;
 
 namespace NerdStore.Catalogo.Data.Mappings;
 
@@ -19,22 +20,15 @@ public class ProdutoMapping: IEntityTypeConfiguration<Product>
         builder.Property(c => c.Image)
             .IsRequired()
             .HasColumnType("varchar(250)");
+        builder.Property(c => c.Amount)
+            .IsRequired()
+            .HasColumnType("decimal(10,2)");
 
-        builder.OwnsOne(c => c.Dimensions, cm =>
-        {
-            cm.Property(c => c.Height)
-                .HasColumnName("Altura")
-                .HasColumnType("int");
+        builder
+            .HasOne(p => p.Dimensions)
+            .WithOne(d => d.Product)
+            .HasForeignKey<Dimensions>(d => d.Id);
 
-            cm.Property(c => c.Width)
-                .HasColumnName("Largura")
-                .HasColumnType("int");
-
-            cm.Property(c => c.Depth)
-                .HasColumnName("Profundidade")
-                .HasColumnType("int");
-
-            cm.Ignore(c => c.Notifications);
-        });
+        builder.Ignore(c => c.Notifications);
     }
 }

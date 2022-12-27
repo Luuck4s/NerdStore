@@ -6,5 +6,11 @@ namespace NerdStore.Core.ValueObjects;
 [ExcludeFromCodeCoverage]
 public abstract class ValueObject: Notifiable<Notification>
 {
+    public Guid Id { get; private set; }
+
+    public ValueObject()
+    {
+        Id = Guid.NewGuid();
+    }
     public abstract void Validate();
 }

@@ -16,11 +16,5 @@ public static class ServicesExtensions
         service.AddScoped<IProductRepository, ProductRepository>();
         service.AddScoped<IMediatRHandler, MediatRHandler>();
         service.AddTransient<ProductEventHandler>();
-
-        service.AddDbContext<CatalogContext>(
-            opt =>
-                opt.UseInMemoryDatabase("Database")
-        );  
     }
-
 }

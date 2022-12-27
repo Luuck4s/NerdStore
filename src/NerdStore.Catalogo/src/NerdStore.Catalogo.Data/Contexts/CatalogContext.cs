@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Flunt.Notifications;
+using Microsoft.EntityFrameworkCore;
+using NerdStore.Catalogo.Data.Mappings;
 using NerdStore.Catalogo.Domain.Entities;
 using NerdStore.Core.Data;
 
@@ -16,17 +18,11 @@ public class CatalogContext: DbContext, IUnitOfWork
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        var properties = modelBuilder.Model
-            .GetEntityTypes()
-            .SelectMany(e => e.GetProperties()
-            .Where(p => p.ClrType == typeof(string)));
+        modelBuilder.Ignore<Notification>();
 
-        foreach (var property in properties)
-        {
-            property.SetColumnType(DefaultVarcharType);
-        }
-
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(CatalogContext).Assembly);
+        modelBuilder.ApplyConfiguration(new ProdutoMapping());
+        modelBuilder.ApplyConfiguration(new CategoryMapping());
+        modelBuilder.ApplyConfiguration(new DimensionsMapping());
     }
 
     public async Task<bool> Commit()

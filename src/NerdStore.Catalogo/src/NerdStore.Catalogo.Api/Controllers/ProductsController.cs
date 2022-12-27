@@ -32,7 +32,7 @@ public class ProductsController : ControllerBase
             request.Description,
             true,
             request.Amount,
-            Guid.NewGuid(),
+            request.CategoryId,
             DateTime.Now,
             request.Image,
             new Dimensions(request.Depth, request.Width, request.Height)
