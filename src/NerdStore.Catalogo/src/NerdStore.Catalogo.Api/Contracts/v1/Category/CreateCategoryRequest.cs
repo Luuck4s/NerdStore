@@ -4,7 +4,7 @@ public class CreateCategoryRequest
 {
     public Guid Id { get; set; }
 
-    public string Nome { get; set; } = String.Empty;
+    public string Name { get; set; } = String.Empty;
 
-    public int Codigo { get; set; }
+    public int Code { get; set; }
 }

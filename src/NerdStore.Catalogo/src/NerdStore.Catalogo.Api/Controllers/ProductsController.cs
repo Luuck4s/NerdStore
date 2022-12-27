@@ -4,7 +4,7 @@ using NerdStore.Catalogo.Domain.Entities;
 using NerdStore.Catalogo.Domain.Repositories;
 using NerdStore.Catalogo.Domain.ValueObjects;
 
-namespace NerdStore.Catalogo.Api.Controllers.Products;
+namespace NerdStore.Catalogo.Api.Controllers;
 
 [ApiController]
 [Route("v1/products")]
