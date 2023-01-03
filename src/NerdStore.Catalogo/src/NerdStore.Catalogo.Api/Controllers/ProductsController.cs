@@ -2,6 +2,7 @@
 using NerdStore.Catalogo.Api.Requests.v1.Product;
 using NerdStore.Catalogo.Domain.Entities;
 using NerdStore.Catalogo.Domain.Repositories;
+using NerdStore.Catalogo.Domain.Services;
 using NerdStore.Catalogo.Domain.ValueObjects;
 
 namespace NerdStore.Catalogo.Api.Controllers;
@@ -11,10 +12,12 @@ namespace NerdStore.Catalogo.Api.Controllers;
 public class ProductsController : ControllerBase
 {
     private IProductRepository _productRepository;
+    private IStockService _stockService;
 
-    public ProductsController(IProductRepository productRepository)
+    public ProductsController(IProductRepository productRepository, IStockService stockService)
     {
         _productRepository = productRepository;
+        _stockService = stockService;
     }
     
     [HttpGet]
@@ -22,6 +25,54 @@ public class ProductsController : ControllerBase
     {
        var products = await _productRepository.GetAll();
        return Ok(products);
+    }
+    
+    [HttpGet("{productId}")]
+    public async Task<IActionResult> GetById(Guid productId)
+    {
+        var product = await _productRepository.GetById(productId);
+
+        if (product is null)
+        {
+            return BadRequest("Product not found");
+        }
+        
+        return Ok(product);
+    }
+    
+    [HttpPost("add-stock")]
+    public async Task<IActionResult> AddStock([FromBody] AddStockRequest request)
+    {
+        var product = await _productRepository.GetById(request.ProductId);
+
+        if (product is null)
+        {
+            return BadRequest("Product not found");
+        }
+
+        await _stockService.AddStock(product.Id, request.Quantity);
+        
+        return Ok();
+    }
+    
+    [HttpPost("debit-stock")]
+    public async Task<IActionResult> DebitStock([FromBody] DebitStockRequest request)
+    {
+        var product = await _productRepository.GetById(request.ProductId);
+
+        if (product is null)
+        {
+            return BadRequest("Product not found");
+        }
+
+        var result = await _stockService.DebitStock(product.Id, request.Quantity);
+
+        if (result)
+        {
+            return Ok();
+        }
+
+        return BadRequest("Product without stock");
     }
 
     [HttpPost]

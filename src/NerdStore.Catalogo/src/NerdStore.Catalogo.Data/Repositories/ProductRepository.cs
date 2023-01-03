@@ -19,22 +19,32 @@ public class ProductRepository: IProductRepository
 
     public async Task<IEnumerable<Product>> GetAll()
     {
-        return await _context.Produtos.AsNoTracking().ToListAsync();
+        return await _context.Produtos.Include(p => p.Category)
+            .Include(p => p.Dimensions)
+            .AsNoTracking()
+            .ToListAsync();
     }
 
-    public async Task<Product> GetById(Guid id)
+    public async Task<Product?> GetById(Guid id)
     {
-        return (await _context.Produtos.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id))!;
+        return await _context.Produtos
+            .Include(p => p.Category)
+            .Include(p => p.Dimensions)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.Id == id);
     }
 
     public async Task<IEnumerable<Product>> GetByCategory(int codigo)
     {
-        return await _context.Produtos.AsNoTracking().Include(p => p.Category).Where(c => c.Category.Code == codigo).ToListAsync();
+        return await _context.Produtos.AsNoTracking()
+            .Include(p => p.Category)
+            .Where(c => c.Category.Code == codigo)
+            .ToListAsync();
     }
 
     public async Task<IEnumerable<Category>> GetCategories()
     {
-        return await _context.Categorias.AsNoTracking().ToListAsync();
+        return await _context.Categorias.Include(x => x.Products).AsNoTracking().ToListAsync();
     }
 
     public void Add(Product product)

@@ -7,7 +7,7 @@ public interface IProductRepository: IRepository<Product>
 {
     Task<IEnumerable<Product>> GetAll();
 
-    Task<Product> GetById(Guid id);
+    Task<Product?> GetById(Guid id);
 
     Task<IEnumerable<Product>> GetByCategory(int codigo);
 
