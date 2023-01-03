@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NerdStore.Catalogo.Api.Contracts.v1.Product;
+using NerdStore.Catalogo.Api.Requests.v1.Product;
 using NerdStore.Catalogo.Domain.Entities;
 using NerdStore.Catalogo.Domain.Repositories;
 using NerdStore.Catalogo.Domain.ValueObjects;
@@ -27,6 +27,13 @@ public class ProductsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateProduct([FromBody] CreateProductRequest request)
     {
+        request.Validate();
+
+        if (request.IsValid is false)
+        {
+            return BadRequest(request.Notifications);
+        }
+
         var product = new Product(
             request.Name,
             request.Description,

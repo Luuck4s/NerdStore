@@ -16,31 +16,6 @@ public class Dimensions: ValueObject
         Depth = depth;
         Width = width;
         Height = height;
-        
-        Validate();
-    }
-    
-    public sealed override void Validate()
-    {
-        AddNotifications(
-            new Contract<Product>()
-                .Requires()
-                .IsGreaterThan(
-                    Height,
-                    0,
-                    "Dimensoes.Altura", 
-                    "Altura precisa ser maior que 0")
-                .IsGreaterThan(
-                    Width,
-                    0,
-                    "Dimensoes.Largura", 
-                    "Largura precisa ser maior que 0")
-                .IsGreaterThan(
-                    Depth,
-                    0,
-                    "Dimensoes.Profundidade", 
-                    "Profundidade precisa ser maior que 0")
-        );
     }
 
     private string FormattedDescription()

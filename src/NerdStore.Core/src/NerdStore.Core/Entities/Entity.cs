@@ -1,10 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Flunt.Notifications;
 
 namespace NerdStore.Core.Entities;
 
 [ExcludeFromCodeCoverage]
-public abstract class Entity: Notifiable<Notification>
+public abstract class Entity
 {
     public Guid Id { get; private set; }
 
@@ -12,8 +11,6 @@ public abstract class Entity: Notifiable<Notification>
     {
         Id = Guid.NewGuid();
     }
-
-    public abstract void Validate();
 
     public override string ToString()
     {

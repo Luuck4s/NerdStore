@@ -28,7 +28,5 @@ public class ProdutoMapping: IEntityTypeConfiguration<Product>
             .HasOne(p => p.Dimensions)
             .WithOne(d => d.Product)
             .HasForeignKey<Dimensions>(d => d.Id);
-
-        builder.Ignore(c => c.Notifications);
     }
 }

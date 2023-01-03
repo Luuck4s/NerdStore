@@ -17,7 +17,5 @@ public class CategoryMapping: IEntityTypeConfiguration<Category>
         builder.HasMany(c => c.Products)
             .WithOne(p => p.Category)
             .HasForeignKey(p => p.CategoryId);
-
-        builder.Ignore(c => c.Notifications);
     }
 }

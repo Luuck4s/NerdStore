@@ -4,7 +4,7 @@ using Flunt.Notifications;
 namespace NerdStore.Core.ValueObjects;
 
 [ExcludeFromCodeCoverage]
-public abstract class ValueObject: Notifiable<Notification>
+public abstract class ValueObject
 {
     public Guid Id { get; private set; }
 
@@ -12,5 +12,4 @@ public abstract class ValueObject: Notifiable<Notification>
     {
         Id = Guid.NewGuid();
     }
-    public abstract void Validate();
 }

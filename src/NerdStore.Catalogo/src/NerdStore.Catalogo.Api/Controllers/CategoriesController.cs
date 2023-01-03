@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using NerdStore.Catalogo.Api.Contracts.v1.Category;
+using NerdStore.Catalogo.Api.Requests.v1.Category;
 using NerdStore.Catalogo.Domain.Entities;
 using NerdStore.Catalogo.Domain.Repositories;
 
@@ -26,6 +26,13 @@ public class CategoriesController: ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryRequest request)
     {
+        request.Validate();
+
+        if (request.IsValid is false)
+        {
+            return BadRequest(request.Notifications);
+        }
+        
         var category = new Category(
             request.Name,
             request.Code

@@ -22,7 +22,5 @@ public class DimensionsMapping: IEntityTypeConfiguration<Dimensions>
         builder.Property(c => c.Depth)
             .HasColumnName("Profundidade")
             .HasColumnType("int");
-
-        builder.Ignore(c => c.Notifications);
     }
 }
