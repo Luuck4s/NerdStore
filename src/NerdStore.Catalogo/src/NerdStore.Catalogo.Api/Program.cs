@@ -12,6 +12,7 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDatabaseServices(builder.Configuration);
+builder.Services.AddEventsServices();
 builder.Services.AddServices();
 var app = builder.Build();
 
