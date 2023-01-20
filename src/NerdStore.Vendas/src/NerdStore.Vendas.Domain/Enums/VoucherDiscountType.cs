@@ -1,6 +1,7 @@
 namespace NerdStore.Vendas.Domain.Enums;
 
-public class VoucherDiscountType
+public enum VoucherDiscountType
 {
-    
+    Percentage = 0,
+    Amount = 1
 }
