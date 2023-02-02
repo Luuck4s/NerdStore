@@ -11,4 +11,13 @@
     <PackageReference Include="MediatR" Version="11.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="FluentValidation">
+      <HintPath>..\..\..\..\..\..\.nuget\packages\fluentvalidation\11.4.0\lib\net6.0\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens">
+      <HintPath>..\..\..\..\..\..\.nuget\packages\microsoft.identitymodel.tokens\6.21.0\lib\net6.0\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
