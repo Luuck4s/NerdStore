@@ -1,5 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using NerdStore.Core.Contracts.Results;
+using NerdStore.Vendas.Api.Requests.Product;
 using NerdStore.Vendas.Domain.Commands;
 
 namespace NerdStore.Vendas.Api.Controllers;
@@ -14,11 +16,12 @@ public class ProductController: ControllerBase
         _mediator = mediator;
     }
 
-    [HttpGet("/add-item")]
-    public Task AddItem()
+    [HttpPost("/add-item")]
+    public async Task<GenericCommandResult> AddItem(AddItemOrderRequest request)
     {
-        var command = new AddItemOrderCommand(Guid.Empty, Guid.Empty, "", 1, 1);
-        _mediator.Send(command);
-        return Task.CompletedTask;
+        var command = new AddItemOrderCommand(request.ClientId, request.ProductId, request.Name, request.Quantity, request.UnitAmount);
+        await _mediator.Send(command);
+
+        return new(command.AggregateId);
     }
 }

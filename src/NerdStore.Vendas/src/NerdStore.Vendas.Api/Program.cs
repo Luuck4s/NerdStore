@@ -2,28 +2,31 @@ using System.Reflection;
 using FluentValidation;
 using MediatR;
 using NerdStore.Core.PipelineBehavior;
+using NerdStore.Vendas.Api.Middleware;
 using NerdStore.Vendas.Domain.CommandHandlers;
 using NerdStore.Vendas.Domain.Commands;
+using NerdStore.Vendas.Domain.Commands.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+builder.Services.AddValidatorsFromAssemblyContaining<AddItemOrderCommandValidator>();
 
-builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-builder.Services.AddTransient(typeof(ValidationBehaviour<,>), typeof(ValidationBehaviour<,>));
+builder.Services.AddTransient<ExceptionHandlingMiddleware>();
+
+builder.Services.AddTransient(typeof(MediatR.IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 builder.Services.AddScoped<IRequestHandler<AddItemOrderCommand, bool>, AddItemOrderCommandHandler>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
