@@ -8,5 +8,6 @@ public abstract class IMessage
     protected IMessage()
     {
         MessageType = GetType().Name;
+        AggregateId = Guid.NewGuid();
     }
 }

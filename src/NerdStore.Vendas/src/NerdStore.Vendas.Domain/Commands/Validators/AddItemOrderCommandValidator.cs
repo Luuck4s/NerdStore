@@ -6,9 +6,13 @@ public class AddItemOrderCommandValidator : AbstractValidator<AddItemOrderComman
 {
     public AddItemOrderCommandValidator()
     {
-        RuleFor(x => x.ProductId).NotNull().NotEqual(Guid.Empty);
-        RuleFor(x => x.ClientId).NotNull().NotEqual(Guid.Empty);
-        RuleFor(x => x.Quantity).NotNull().GreaterThan(0);
-        RuleFor(x => x.UnitAmount).NotNull().GreaterThan(0);
+        RuleFor(x => x.ProductId)
+            .NotEqual(Guid.Empty);
+        RuleFor(x => x.ClientId)
+            .NotEqual(Guid.Empty);
+        RuleFor(x => x.Name)
+            .NotNull();
+        RuleFor(x => x.Quantity).GreaterThan(0);
+        RuleFor(x => x.UnitAmount).GreaterThan(0);
     }
 }
