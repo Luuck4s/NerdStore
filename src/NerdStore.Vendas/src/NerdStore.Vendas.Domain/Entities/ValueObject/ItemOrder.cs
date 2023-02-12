@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using NerdStore.Core.Entities;
 
 namespace NerdStore.Vendas.Domain.Entities.ValueObject;
@@ -9,10 +10,10 @@ public class ItemOrder : Entity
     public string ProductName { get; private set; }
     public int Quantity { get; private set; }
     public decimal UnitAmount { get; private set; }
-
+    [JsonIgnore]
     public Order Order { get; set; }
 
-    public ItemOrder(Guid productId, string productName, int quantity, decimal unitAmount)
+    public ItemOrder(Guid productId, string productName, int quantity, decimal unitAmount, Guid aggregateId) : base(aggregateId)
     {
         ProductId = productId;
         ProductName = productName;

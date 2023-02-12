@@ -8,31 +8,31 @@ namespace NerdStore.Vendas.Domain.Entities;
 
 public class Order : Entity, IAggregateRoot
 {
-    public int Code { get; private set; }
-    public Guid ClientId { get; private set; }
-    public Guid? VoucherId { get; private set; }
-    public bool IsVoucherActived { get; private set; }
-    public decimal Discount { get; private set; }
-    public decimal TotalAmount { get; private set; }
-    public DateTime CreatedAt { get; private set; }
-    public OrderStatus OrderStatus { get; private set; }
+    public string Code { get; private set; }
+    public Guid ClientId { get; set; }
+    public Guid? VoucherId { get; set; }
+    public bool IsVoucherActived { get; set; }
+    public decimal TotalAmount { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public OrderStatus OrderStatus { get; set; }
     private readonly List<ItemOrder> _itemOrders;
     public IReadOnlyCollection<ItemOrder> ItemOrders => _itemOrders;
 
     public Voucher Voucher { get; set; }
 
-    public Order(Guid clientId, Guid? voucherId, decimal discount, decimal totalAmount)
+    public Order(Guid clientId, Guid aggregateId) : base(aggregateId)
     {
         ClientId = clientId;
-        VoucherId = voucherId;
-        Discount = discount;
-        TotalAmount = totalAmount;
+        TotalAmount = 0;
         _itemOrders = new();
+        Code = Guid.NewGuid().ToString().Substring(0, 10);
+        CreatedAt = DateTime.Now;
     }
 
     protected Order()
     {
         _itemOrders = new();
+        Code = Guid.NewGuid().ToString().Substring(0, 10);
     }
 
     public void ApplyDiscount(Voucher voucher)

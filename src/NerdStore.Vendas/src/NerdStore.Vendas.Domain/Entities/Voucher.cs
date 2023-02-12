@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using NerdStore.Core.Entities;
 using NerdStore.Vendas.Domain.Enums;
 
@@ -5,18 +6,23 @@ namespace NerdStore.Vendas.Domain.Entities;
 
 public class Voucher : Entity
 {
-    public string Code { get; private set; }
-    public decimal? Percent { get; private set; }
-    public decimal? DiscountAmount { get; private set; }
-    public int Quantity { get; private set; }
-    public VoucherDiscountType VoucherDiscountType { get; private set; }
-    public DateTime CreatedAt { get; private set; }
-    public DateTime? UsedAt { get; private set; }
-    public DateTime? ValidUntil { get; private set; }
-    public bool IsActive { get; private set; }
-    public bool IsUsed { get; private set; }
-
+    public string Code { get;  set; }
+    public decimal? Percent { get;  set; }
+    public decimal? DiscountAmount { get;  set; }
+    public int Quantity { get;  set; }
+    public VoucherDiscountType VoucherDiscountType { get;  set; }
+    public DateTime CreatedAt { get;  set; }
+    public DateTime? UsedAt { get;  set; }
+    public DateTime? ValidUntil { get;  set; }
+    public bool IsActive { get;  set; }
+    public bool IsUsed { get;  set; }
+    [JsonIgnore]
     public ICollection<Order> Orders { get; set; }
+
+    public Voucher()
+    {
+        Code = Guid.NewGuid().ToString().Substring(0, 10);
+    }
 
     public decimal CalculateDiscount(decimal totalAmount)
     {

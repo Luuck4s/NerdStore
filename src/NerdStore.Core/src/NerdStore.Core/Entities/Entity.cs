@@ -7,9 +7,9 @@ public abstract class Entity
 {
     public Guid Id { get; private set; }
 
-    protected Entity()
+    protected Entity(Guid? id = null)
     {
-        Id = Guid.NewGuid();
+        Id = id ?? Guid.NewGuid();
     }
 
     public override string ToString()

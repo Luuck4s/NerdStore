@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using MediatR;
+using NerdStore.Core.Commands;
 using NerdStore.Core.Messages;
 
 namespace NerdStore.Core.EventHandler;
@@ -17,5 +18,10 @@ public class MediatRHandler: IMediatRHandler
     public async Task PublishEvent<T>(T evento) where T : Event
     {
         await _mediator.Publish(evento);
+    }
+
+    public async Task PublishCommand<T>(T command) where T : ICommand
+    {
+        await _mediator.Send(command);
     }
 }

@@ -1,5 +1,4 @@
-﻿using MediatR;
-using NerdStore.Catalogo.Data.Repositories;
+﻿using NerdStore.Catalogo.Data.Repositories;
 using NerdStore.Catalogo.Domain.Repositories;
 using NerdStore.Catalogo.Domain.Services;
 
