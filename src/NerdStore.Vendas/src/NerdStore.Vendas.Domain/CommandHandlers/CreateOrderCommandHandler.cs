@@ -2,6 +2,7 @@ using MediatR;
 using NerdStore.Vendas.Domain.Commands;
 using NerdStore.Vendas.Domain.Entities;
 using NerdStore.Vendas.Domain.Enums;
+using NerdStore.Vendas.Domain.Events;
 using NerdStore.Vendas.Domain.Repository;
 
 namespace NerdStore.Vendas.Domain.CommandHandlers;
@@ -23,6 +24,7 @@ public class CreateOrderCommandHandler: IRequestHandler<CreateOrderCommand, bool
             VoucherId = Guid.Empty,
             Voucher = new Voucher()
         };
+        order.AddEvent(new DraftOrderCreated(request.ClientId, request.AggregateId));
 
         _orderRepository.Add(order);
         return await _orderRepository.UnitOfWork.Commit();

@@ -18,7 +18,7 @@ public class OrderRepository: IOrderRepository
         _context = context;
     }
 
-    public async Task<Order> GetOrder(Guid id)
+    public async Task<Order?> GetOrder(Guid id)
     {
         return await _context.Orders
             .Include(x => x.ItemOrders)
@@ -54,7 +54,7 @@ public class OrderRepository: IOrderRepository
         _context.Orders.Update(order);
     }
 
-    public async Task<ItemOrder> GetItemOrder(Guid id)
+    public async Task<ItemOrder?> GetItemOrder(Guid id)
     {
         return await _context.ItemOrders.FindAsync(id);
     }

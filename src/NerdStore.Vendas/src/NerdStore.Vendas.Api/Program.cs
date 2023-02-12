@@ -1,3 +1,6 @@
+using System.Reflection;
+using MediatR;
+using NerdStore.Core.EventHandler;
 using NerdStore.Vendas.Api.Configuration;
 using NerdStore.Vendas.Api.Middleware;
 
@@ -8,8 +11,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddMediatR(typeof(Program));
+builder.Services.AddScoped<IMediatRHandler, MediatRHandler>();
+
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 builder.Services.AddCommandsService();
+builder.Services.AddNotificationsService();
 builder.Services.AddDatabaseServices(builder.Configuration);
 builder.Services.AddServices();
 

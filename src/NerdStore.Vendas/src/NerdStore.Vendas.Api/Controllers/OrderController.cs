@@ -29,7 +29,7 @@ public class OrderController: ControllerBase
     }
     
     [HttpGet("/get-order/{id}")]
-    public async Task<Order> GetOrder(Guid id)
+    public async Task<Order?> GetOrder(Guid id)
     {
         return await _orderRepository.GetOrder(id);
     }

@@ -4,11 +4,11 @@ namespace NerdStore.Catalogo.Domain.Entities;
 
 public class Category: Entity
 {
-    public string Name { get; private set; }
+    public string Name { get; private set; } = string.Empty;
 
     public int Code { get; private set; }
 
-    public ICollection<Product> Products { get; private set; }
+    public ICollection<Product>? Products { get; private set; }
 
     protected Category()
     { }

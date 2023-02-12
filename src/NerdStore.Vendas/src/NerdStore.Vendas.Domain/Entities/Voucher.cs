@@ -17,7 +17,7 @@ public class Voucher : Entity
     public bool IsActive { get;  set; }
     public bool IsUsed { get;  set; }
     [JsonIgnore]
-    public ICollection<Order> Orders { get; set; }
+    public ICollection<Order>? Orders { get; set; }
 
     public Voucher()
     {

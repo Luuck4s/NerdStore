@@ -16,34 +16,34 @@ public class StockService: IStockService
         _mediatR = mediatR;
     }
 
-    public async Task<bool> DebitStock(Guid produtoId, int quantidade)
+    public async Task<bool> DebitStock(Guid productId, int quantity)
     {
-        var produto = await _productRepository.GetById(produtoId);
+        var product = await _productRepository.GetById(productId);
 
-        if (produto.HasStock(quantidade) is false)
+        if (product!.HasStock(quantity) is false)
         {
             return false;
         }
         
-        produto.DebitStock(quantidade);
+        product.DebitStock(quantity);
 
-        if (produto.QuantityStock < 10)
+        if (product.QuantityStock < 10)
         {
-            var @event = new LowStockProductEvent(produto.Id, produto.QuantityStock);
+            var @event = new LowStockProductEvent(product.Id, product.QuantityStock);
             await _mediatR.PublishEvent(@event);
         }
 
-        _productRepository.Update(produto);
+        _productRepository.Update(product);
         return await _productRepository.UnitOfWork.Commit();
     }
 
-    public async Task<bool> AddStock(Guid produtoId, int quantidade)
+    public async Task<bool> AddStock(Guid productId, int quantity)
     {
-        var produto = await _productRepository.GetById(produtoId);
+        var product = await _productRepository.GetById(productId);
 
-        produto.AddStock(quantidade);
+        product!.AddStock(quantity);
 
-        _productRepository.Update(produto);
+        _productRepository.Update(product);
         return await _productRepository.UnitOfWork.Commit();
     }
 

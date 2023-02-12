@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using NerdStore.Catalogo.Data.Mappings;
 using NerdStore.Catalogo.Domain.Entities;
 using NerdStore.Core.Data;
+using NerdStore.Core.Messages;
 
 namespace NerdStore.Catalogo.Data.Contexts;
 
@@ -19,6 +20,7 @@ public class CatalogContext: DbContext, IUnitOfWork
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Ignore<Notification>();
+        modelBuilder.Ignore<Event>();
 
         modelBuilder.ApplyConfiguration(new ProdutoMapping());
         modelBuilder.ApplyConfiguration(new CategoryMapping());

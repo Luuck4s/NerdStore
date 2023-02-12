@@ -18,7 +18,7 @@ public class Order : Entity, IAggregateRoot
     private readonly List<ItemOrder> _itemOrders;
     public IReadOnlyCollection<ItemOrder> ItemOrders => _itemOrders;
 
-    public Voucher Voucher { get; set; }
+    public Voucher? Voucher { get; set; }
 
     public Order(Guid clientId, Guid aggregateId) : base(aggregateId)
     {
@@ -52,7 +52,7 @@ public class Order : Entity, IAggregateRoot
     {
         if (IsVoucherActived is false) return;
 
-        TotalAmount = Voucher.CalculateDiscount(TotalAmount);
+        TotalAmount = Voucher!.CalculateDiscount(TotalAmount);
     }
 
     public bool AlreadyExists(ItemOrder itemOrder)

@@ -7,11 +7,11 @@ public class ItemOrder : Entity
 {
     public Guid OrderId { get; private set; }
     public Guid ProductId { get; private set; }
-    public string ProductName { get; private set; }
+    public string ProductName { get; private set; } = string.Empty;
     public int Quantity { get; private set; }
     public decimal UnitAmount { get; private set; }
     [JsonIgnore]
-    public Order Order { get; set; }
+    public Order? Order { get; set; }
 
     public ItemOrder(Guid productId, string productName, int quantity, decimal unitAmount, Guid aggregateId) : base(aggregateId)
     {

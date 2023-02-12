@@ -2,6 +2,6 @@
 
 public interface IStockService: IDisposable
 {
-    Task<bool> DebitStock(Guid produtoId, int quantidade);
-    Task<bool> AddStock(Guid produtoId, int quantidade);
+    Task<bool> DebitStock(Guid productId, int quantity);
+    Task<bool> AddStock(Guid productId, int quantity);
 }

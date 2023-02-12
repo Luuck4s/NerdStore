@@ -10,7 +10,7 @@ public static class DatabaseServiceCollectionExtensions
     {
         var databaseSettings = configuration.GetSection(nameof(DatabaseSettings)).Get<DatabaseSettings>();
 
-        if (databaseSettings.InMemory)
+        if (databaseSettings!.InMemory)
         {
             services.AddDbContext<VendasContext>(
                 opt =>

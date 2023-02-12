@@ -2,6 +2,7 @@
 using MediatR;
 using NerdStore.Core.Commands;
 using NerdStore.Core.Messages;
+using NerdStore.Core.Notification;
 
 namespace NerdStore.Core.EventHandler;
 
@@ -23,5 +24,10 @@ public class MediatRHandler: IMediatRHandler
     public async Task PublishCommand<T>(T command) where T : ICommand
     {
         await _mediator.Send(command);
+    }
+
+    public async Task PublishNotification<T>(T notification) where T : DomainNotification
+    {
+        await _mediator.Publish(notification);
     }
 }

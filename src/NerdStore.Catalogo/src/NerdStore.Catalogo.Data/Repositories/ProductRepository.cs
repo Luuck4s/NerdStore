@@ -38,7 +38,7 @@ public class ProductRepository: IProductRepository
     {
         return await _context.Produtos.AsNoTracking()
             .Include(p => p.Category)
-            .Where(c => c.Category.Code == codigo)
+            .Where(c => c.Category!.Code == codigo)
             .ToListAsync();
     }
 

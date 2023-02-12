@@ -1,12 +1,21 @@
 using System.Text.Json;
+using MediatR;
 using NerdStore.Core.Exceptions;
+using NerdStore.Core.Notification;
 
 namespace NerdStore.Vendas.Api.Middleware;
 
 public class ExceptionHandlingMiddleware: IMiddleware
 {
     private readonly ILogger<ExceptionHandlingMiddleware> _logger;
-    public ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddleware> logger) => _logger = logger;
+    private static DomainNotificationHandler? _notification;
+
+    public ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddleware> logger,
+        INotificationHandler<DomainNotification> notification)
+    {
+        _logger = logger;
+        _notification = (DomainNotificationHandler) notification;
+    }
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
@@ -35,8 +44,19 @@ public class ExceptionHandlingMiddleware: IMiddleware
 
     private static Dictionary<string, string[]>? GetErrors(Exception exception)
     {
-        return exception is not ValidatorException convertedException 
-            ? null 
-            : convertedException.Errors;
+        if (exception is not ValidatorException convertedException)
+        {
+            return _notification!.GetNotifications().ToList().GroupBy(
+                    x => x.Key,
+                    x => x.Value,
+                    (propertyName, errorMessages) => new
+                    {
+                        Key = propertyName,
+                        Values = errorMessages.Distinct().ToArray()
+                    })
+                .ToDictionary(x => x.Key, x => x.Values);
+        }
+
+        return convertedException.Errors;
     }
 }

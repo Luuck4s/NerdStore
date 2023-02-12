@@ -20,6 +20,6 @@ public class ProductEventHandler: INotificationHandler<LowStockProductEvent>
     {
         var produto = await _productRepository.GetById(notification.AggregateId);
 
-        _logger.LogInformation($"Produto {produto.Id} - {produto.Name} abaixo do estoque");
+        _logger.LogInformation($"Produto {produto!.Id} - {produto.Name} abaixo do estoque");
     }
 }
