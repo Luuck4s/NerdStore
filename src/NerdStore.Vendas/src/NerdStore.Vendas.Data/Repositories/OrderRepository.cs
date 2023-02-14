@@ -28,7 +28,7 @@ public class OrderRepository: IOrderRepository
 
     public async Task<List<Order>> GetAllOrders()
     {
-        return await _context.Orders.ToListAsync();
+        return await _context.Orders.Include(x => x.ItemOrders).ToListAsync();
     }
 
     public async Task<IEnumerable<Order>> GetOrdersByClient(Guid clientId)

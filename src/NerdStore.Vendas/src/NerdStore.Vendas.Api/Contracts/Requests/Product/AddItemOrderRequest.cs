@@ -1,4 +1,4 @@
-namespace NerdStore.Vendas.Api.Requests.Product;
+namespace NerdStore.Vendas.Api.Contracts.Requests.Product;
 
 public class AddItemOrderRequest
 {

@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using NerdStore.Core.Contracts.Results;
 using NerdStore.Core.EventHandler;
-using NerdStore.Vendas.Api.Requests.Order;
-using NerdStore.Vendas.Api.Requests.Product;
+using NerdStore.Vendas.Api.Contracts.Order;
+using NerdStore.Vendas.Api.Contracts.Requests.Order;
+using NerdStore.Vendas.Api.Queries;
 using NerdStore.Vendas.Domain.Commands;
-using NerdStore.Vendas.Domain.Entities;
-using NerdStore.Vendas.Domain.Repository;
 
 namespace NerdStore.Vendas.Api.Controllers;
 
@@ -14,39 +13,30 @@ namespace NerdStore.Vendas.Api.Controllers;
 public class OrderController: ControllerBase
 {
     private readonly IMediatRHandler _mediator;
-    private readonly IOrderRepository _orderRepository;
+    private readonly IOrderQueries _orderQueries;
 
-    public OrderController(IMediatRHandler mediator, IOrderRepository orderRepository)
+    public OrderController(IMediatRHandler mediator, IOrderQueries orderQueries)
     {
         _mediator = mediator;
-        _orderRepository = orderRepository;
+        _orderQueries = orderQueries;
     }
     
-    [HttpGet("/get-all")]
-    public async Task<List<Order>> GetAllOrders()
+    [HttpGet("get-all")]
+    public async Task<List<OrderResponse>> GetAllOrders()
     {
-        return await _orderRepository.GetAllOrders();
+        return await _orderQueries.GetAllOrders();
     }
     
-    [HttpGet("/get-order/{id}")]
-    public async Task<Order?> GetOrder(Guid id)
+    [HttpGet("{id}")]
+    public async Task<OrderResponse> GetOrder(Guid id)
     {
-        return await _orderRepository.GetOrder(id);
+        return await _orderQueries.GetOrder(id);
     }
     
-    [HttpPost("/create-order")]
+    [HttpPost()]
     public async Task<GenericCommandResult> CreateOrder(CreateOrderRequest request)
     {
         var command = new CreateOrderCommand(request.ClientId);
-        await _mediator.PublishCommand(command);
-
-        return new(command.AggregateId);
-    }
-
-    [HttpPost("/{orderId}/add-item")]
-    public async Task<GenericCommandResult> AddItem(Guid orderId, AddItemOrderRequest request)
-    {
-        var command = new AddItemOrderCommand(request.ClientId, request.ProductId, request.Name, request.Quantity, request.UnitAmount, orderId);
         await _mediator.PublishCommand(command);
 
         return new(command.AggregateId);

@@ -1,4 +1,4 @@
-using System.Reflection;
+using System.Text.Json;
 using MediatR;
 using NerdStore.Core.EventHandler;
 using NerdStore.Vendas.Api.Configuration;
@@ -17,8 +17,10 @@ builder.Services.AddScoped<IMediatRHandler, MediatRHandler>();
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 builder.Services.AddCommandsService();
 builder.Services.AddNotificationsService();
+builder.Services.AddQueries();
 builder.Services.AddDatabaseServices(builder.Configuration);
 builder.Services.AddServices();
+builder.Services.AddJsonConverter();
 
 var app = builder.Build();
 

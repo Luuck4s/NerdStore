@@ -1,4 +1,4 @@
-namespace NerdStore.Vendas.Api.Requests.Order;
+namespace NerdStore.Vendas.Api.Contracts.Requests.Order;
 
 public class CreateOrderRequest
 {
