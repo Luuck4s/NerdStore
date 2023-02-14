@@ -22,5 +22,8 @@ public static class CommandsServiceCollectionExtensions
         services.AddTransient(typeof(MediatR.IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
         services.AddValidatorsFromAssemblyContaining<AddItemOrderCommandValidator>();
+        services.AddValidatorsFromAssemblyContaining<UpdateItemOrderCommandValidator>();
+        services.AddValidatorsFromAssemblyContaining<DeleteItemOrderCommandValidator>();
+        services.AddValidatorsFromAssemblyContaining<AddVoucherCommandValidator>();
     }
 }

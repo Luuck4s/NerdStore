@@ -23,5 +23,9 @@ public class VoucherMapping: IEntityTypeConfiguration<Voucher>
         builder.Property(c => c.UsedAt);
         builder.Property(c => c.DiscountAmount)
             .HasColumnType("decimal(10,2)");
+
+        builder.HasMany(c => c.Orders)
+            .WithOne(c => c.Voucher)
+            .HasForeignKey(c => c.VoucherId);
     }
 }

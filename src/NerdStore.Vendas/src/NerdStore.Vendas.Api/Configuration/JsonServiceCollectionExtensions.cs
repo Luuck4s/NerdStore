@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using NerdStore.Core.Extensions;
 
 namespace NerdStore.Vendas.Api.Configuration;
@@ -11,6 +12,7 @@ public static class JsonServiceCollectionExtensions
                 options =>
                 {
                     options.JsonSerializerOptions.PropertyNamingPolicy = SnakeCaseNamingPolicy.Instance;
+                    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
                 });
     }
 }

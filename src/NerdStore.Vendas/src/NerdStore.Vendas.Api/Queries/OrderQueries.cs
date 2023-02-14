@@ -22,6 +22,15 @@ public class OrderQueries: IOrderQueries
             ClientId = o.ClientId,
             CreatedAt = o.CreatedAt,
             TotalAmount = o.TotalAmount,
+            OrderStatus = o.OrderStatus.ToString(),
+            Voucher = o.Voucher is not null ? new()
+            {
+                VoucherDiscountType  = o.Voucher.VoucherDiscountType,
+                Quantity  = o.Voucher.Quantity,
+                Code  = o.Voucher.Code,
+                Percent  = o.Voucher.Percent,
+                DiscountAmount  = o.Voucher.DiscountAmount
+            } : null,
             ItensOrder = o.ItemOrders.Select(io => new ItemOrderResponse
             {
                 OrderId = io.OrderId,
@@ -42,6 +51,15 @@ public class OrderQueries: IOrderQueries
             ClientId = order.ClientId,
             CreatedAt = order.CreatedAt,
             TotalAmount = order.TotalAmount,
+            OrderStatus = order.OrderStatus.ToString(),
+            Voucher = order.Voucher is not null ? new()
+            {
+                VoucherDiscountType  = order.Voucher.VoucherDiscountType,
+                Quantity  = order.Voucher.Quantity,
+                Code  = order.Voucher.Code,
+                Percent  = order.Voucher.Percent,
+                DiscountAmount  = order.Voucher.DiscountAmount
+            } : null,
             ItensOrder = order.ItemOrders.Select(io => new ItemOrderResponse
             {
                 OrderId = io.OrderId,

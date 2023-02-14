@@ -20,9 +20,7 @@ public class CreateOrderCommandHandler: IRequestHandler<CreateOrderCommand, bool
     {
         var order = new Order(request.ClientId, request.AggregateId)
         {
-            OrderStatus = OrderStatus.Draft,
-            VoucherId = Guid.Empty,
-            Voucher = new Voucher()
+            OrderStatus = OrderStatus.Draft
         };
         order.AddEvent(new DraftOrderCreated(request.ClientId, request.AggregateId));
 
