@@ -35,13 +35,13 @@ public class AddVoucherCommandHandler: IRequestHandler<AddVoucherCommand, bool>
         if (voucher is null)
         {
             await _mediatRHandler.PublishNotification(new DomainNotification(request.MessageType, "Voucher not found", request.AggregateId));
-            return false;
+            throw new ArgumentException();
         }
 
         if (voucher.IsAppliable() is false)
         {
             await _mediatRHandler.PublishNotification(new DomainNotification(request.MessageType, "Voucher not valid", request.AggregateId));
-            return false;
+            throw new ArgumentException();
         }
         
         order.ApplyDiscount(voucher);
