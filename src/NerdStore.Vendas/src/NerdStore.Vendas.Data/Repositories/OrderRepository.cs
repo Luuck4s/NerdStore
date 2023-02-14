@@ -59,6 +59,11 @@ public class OrderRepository: IOrderRepository
         return await _context.ItemOrders.FindAsync(id);
     }
 
+    public async Task<ItemOrder?> GetItemOrderByOrderAndProduct(Guid orderId, Guid productId)
+    {
+        return await _context.ItemOrders.FirstOrDefaultAsync(x => x.OrderId == orderId && x.ProductId == productId);
+    }
+
     public async Task<IEnumerable<ItemOrder>> GetItemOrderByOrder(Guid orderId)
     {
         return await _context.ItemOrders.AsNoTracking().Where(x => x.OrderId == orderId).ToListAsync();

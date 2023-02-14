@@ -46,4 +46,24 @@ public class Voucher : Entity
         var result = (decimal)(totalAmount - discount);
         return result < 0 ? 0 : result;
     }
+
+    public bool IsAppliable()
+    {
+        if (ValidUntil < DateTime.Today)
+        {
+            return false;
+        }
+
+        if (Quantity <= 0)
+        {
+            return false;
+        }
+
+        if (IsActive == false)
+        {
+            return false;
+        }
+
+        return !IsUsed;
+    }
 }

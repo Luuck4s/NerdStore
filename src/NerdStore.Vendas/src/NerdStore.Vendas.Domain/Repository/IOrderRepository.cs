@@ -15,6 +15,7 @@ public interface IOrderRepository: IRepository<Order>
     void Update(Order order);
 
     Task<ItemOrder?> GetItemOrder(Guid id);
+    Task<ItemOrder?> GetItemOrderByOrderAndProduct(Guid orderId, Guid productId);
     Task<IEnumerable<ItemOrder>> GetItemOrderByOrder(Guid orderId);
 
     void AddItemOrder(ItemOrder itemOrder);

@@ -25,4 +25,22 @@ public class ItemOrderController: ControllerBase
 
         return new(command.AggregateId);
     }
+    
+    [HttpPut("{orderId}/update")]
+    public async Task<GenericCommandResult> UpdateItem(Guid orderId, UpdateItemOrderRequest request)
+    {
+        var command = new UpdateItemOrderCommand(request.ClientId, orderId, request.ProductId, request.Quantity);
+        await _mediator.PublishCommand(command);
+
+        return new(command.AggregateId);
+    }
+    
+    [HttpDelete("{orderId}/delete")]
+    public async Task<GenericCommandResult> DeleteItem(Guid orderId, DeleteItemOrderRequest request)
+    {
+        var command = new DeleteItemOrderCommand(request.ClientId, orderId, request.ProductId);
+        await _mediator.PublishCommand(command);
+
+        return new(command.AggregateId);
+    }
 }

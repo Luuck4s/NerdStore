@@ -25,7 +25,7 @@ public class OrderQueries: IOrderQueries
             OrderStatus = o.OrderStatus.ToString(),
             Voucher = o.Voucher is not null ? new()
             {
-                VoucherDiscountType  = o.Voucher.VoucherDiscountType,
+                VoucherDiscountType  = o.Voucher.VoucherDiscountType.ToString(),
                 Quantity  = o.Voucher.Quantity,
                 Code  = o.Voucher.Code,
                 Percent  = o.Voucher.Percent,
@@ -54,7 +54,7 @@ public class OrderQueries: IOrderQueries
             OrderStatus = order.OrderStatus.ToString(),
             Voucher = order.Voucher is not null ? new()
             {
-                VoucherDiscountType  = order.Voucher.VoucherDiscountType,
+                VoucherDiscountType  = order.Voucher.VoucherDiscountType.ToString(),
                 Quantity  = order.Voucher.Quantity,
                 Code  = order.Voucher.Code,
                 Percent  = order.Voucher.Percent,

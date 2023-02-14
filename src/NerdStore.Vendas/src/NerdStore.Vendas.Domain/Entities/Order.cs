@@ -88,4 +88,17 @@ public class Order : Entity, IAggregateRoot
         _itemOrders.Remove(item!);
         CalculateTotalAmountOrder();
     }
+    
+    public void UpdateItem(ItemOrder itemOrder, int quantity)
+    {
+        var item = _itemOrders.FirstOrDefault(o => o.ProductId == itemOrder.ProductId);
+
+        if (item is null)
+        {
+            throw new InvalidRemoveItemOrder($"Item not found in order {itemOrder.ProductName}");
+        }
+
+        item.UpdateUnits(quantity);
+        CalculateTotalAmountOrder();
+    }
 }

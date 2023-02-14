@@ -8,5 +8,6 @@ public static class ServicesCollectionExtensions
     public static void AddServices(this IServiceCollection service)
     {
         service.AddScoped<IOrderRepository, OrderRepository>();
+        service.AddScoped<IVoucherRepository, VoucherRepository>();
     }
 }

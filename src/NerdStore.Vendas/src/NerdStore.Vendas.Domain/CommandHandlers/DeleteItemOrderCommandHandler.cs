@@ -7,18 +7,18 @@ using NerdStore.Vendas.Domain.Repository;
 
 namespace NerdStore.Vendas.Domain.CommandHandlers;
 
-public class UpdateItemOrderCommandHandler: IRequestHandler<UpdateItemOrderCommand, bool>
+public class DeleteItemOrderCommandHandler: IRequestHandler<DeleteItemOrderCommand, bool>
 {
     private readonly IOrderRepository _orderRepository;
     private readonly IMediatRHandler _mediatRHandler;
 
-    public UpdateItemOrderCommandHandler(IOrderRepository orderRepository, IMediatRHandler mediatRHandler)
+    public DeleteItemOrderCommandHandler(IOrderRepository orderRepository, IMediatRHandler mediatRHandler)
     {
         _orderRepository = orderRepository;
         _mediatRHandler = mediatRHandler;
     }
 
-    public async Task<bool> Handle(UpdateItemOrderCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(DeleteItemOrderCommand request, CancellationToken cancellationToken)
     {
         var order = await _orderRepository.GetOrder(request.OrderId);
 
@@ -29,7 +29,7 @@ public class UpdateItemOrderCommandHandler: IRequestHandler<UpdateItemOrderComma
         }
 
         var itemOrder = await _orderRepository.GetItemOrderByOrderAndProduct(order.Id, request.ProductId);
-        order.UpdateItem(itemOrder!, request.Quantity);
+        order.RemoveItem(itemOrder!);
 
         _orderRepository.UpdateItemOrder(itemOrder!);
         _orderRepository.Update(order);
