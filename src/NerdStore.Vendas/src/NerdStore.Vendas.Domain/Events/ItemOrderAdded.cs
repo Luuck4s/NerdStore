@@ -1,4 +1,4 @@
-using NerdStore.Core.DomainObjects;
+using NerdStore.Core.Events;
 
 namespace NerdStore.Vendas.Domain.Events;
 

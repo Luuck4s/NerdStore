@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Flunt.Notifications;
 
 namespace NerdStore.Core.ValueObjects;
 

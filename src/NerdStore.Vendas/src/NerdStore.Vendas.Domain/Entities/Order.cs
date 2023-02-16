@@ -101,4 +101,14 @@ public class Order : Entity, IAggregateRoot
         item.UpdateUnits(quantity);
         CalculateTotalAmountOrder();
     }
+
+    public void Start()
+    {
+        OrderStatus = OrderStatus.Started;
+    }
+
+    public void Cancel()
+    {
+        OrderStatus = OrderStatus.Canceled;
+    }
 }

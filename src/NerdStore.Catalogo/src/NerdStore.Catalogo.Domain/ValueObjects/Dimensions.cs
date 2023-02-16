@@ -1,5 +1,4 @@
-﻿using Flunt.Validations;
-using NerdStore.Catalogo.Domain.Entities;
+﻿using NerdStore.Catalogo.Domain.Entities;
 using NerdStore.Core.ValueObjects;
 
 namespace NerdStore.Catalogo.Domain.ValueObjects;

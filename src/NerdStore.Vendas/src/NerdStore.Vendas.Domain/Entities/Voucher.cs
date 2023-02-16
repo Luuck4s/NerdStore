@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using NerdStore.Core.Entities;
 using NerdStore.Vendas.Domain.Enums;
 

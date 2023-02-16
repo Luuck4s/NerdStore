@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using NerdStore.Core.Entities;
 
 namespace NerdStore.Vendas.Domain.Entities.ValueObject;
