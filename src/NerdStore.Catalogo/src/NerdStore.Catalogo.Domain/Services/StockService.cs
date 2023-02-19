@@ -22,7 +22,12 @@ public class StockService: IStockService
     {
         var product = await _productRepository.GetById(productId);
 
-        await DebitItemStock(product!, quantity);
+        var productDebitStock = await DebitItemStock(product!, quantity);
+
+        if (productDebitStock is false)
+        {
+            return await Task.FromResult(false);
+        }
 
         _productRepository.Update(product!);
         return await _productRepository.UnitOfWork.Commit();
@@ -52,11 +57,11 @@ public class StockService: IStockService
         return await _productRepository.UnitOfWork.Commit();
     }
 
-    private async Task DebitItemStock(Product product, int quantity)
+    private async Task<bool> DebitItemStock(Product product, int quantity)
     {
         if (product!.HasStock(quantity) is false)
         {
-            return;
+            return false;
         }
         
         if (product.QuantityStock < 10)
@@ -66,6 +71,7 @@ public class StockService: IStockService
         }
         
         product.DebitStock(quantity);
+        return true;
     }
 
     public async Task<bool> AddStock(Product product, int quantity)

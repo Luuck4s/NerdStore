@@ -20,7 +20,7 @@ public class ProdutoAbaixoEstoqueEventTests
     
     public ProdutoAbaixoEstoqueEventTests()
     {
-        var stockService = new Mock<StockService>();
+        var stockService = new Mock<IStockService>();
         _handler = new ProductEventHandler(_produtoRepository.Object, _logger.Object, stockService.Object);
     }
     
@@ -33,7 +33,7 @@ public class ProdutoAbaixoEstoqueEventTests
             true,
             10,
             Guid.NewGuid(),
-            DateTime.Now, 
+            DateTime.Now,
             "xpto",
             new(1, 1 , 1)
         );
