@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.1" />
+    <PackageReference Include="Rebus" Version="7.0.0" />
+    <PackageReference Include="Rebus.RabbitMq" Version="7.0.0" />
+    <PackageReference Include="Rebus.ServiceProvider" Version="7.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NerdStore.SagaBus.Order\NerdStore.SagaBus.Order.csproj" />
+    <ProjectReference Include="..\NerdStore.SagaBus.Payment\NerdStore.SagaBus.Payment.csproj" />
+  </ItemGroup>
+
+</Project>
