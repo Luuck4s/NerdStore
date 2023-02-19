@@ -111,4 +111,9 @@ public class Order : Entity, IAggregateRoot
     {
         OrderStatus = OrderStatus.Canceled;
     }
+
+    public void Paid()
+    {
+        OrderStatus = OrderStatus.Paid;
+    }
 }

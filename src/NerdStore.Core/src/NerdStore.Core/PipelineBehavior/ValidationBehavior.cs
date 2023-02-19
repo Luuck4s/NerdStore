@@ -1,5 +1,6 @@
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using NerdStore.Core.Exceptions;
 
 namespace NerdStore.Core.PipelineBehavior;
@@ -7,11 +8,18 @@ namespace NerdStore.Core.PipelineBehavior;
 public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> 
     where TRequest : IRequest<TResponse>
 {
+    private readonly ILogger<ValidationBehavior<TRequest, TResponse>> _logger;
     private readonly IEnumerable<IValidator<TRequest>> _validators;
-    public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators) => _validators = validators;
-    
+    public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators, ILogger<ValidationBehavior<TRequest, TResponse>> logger)
+    {
+        _validators = validators;
+        _logger = logger;
+    }
+
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
+        _logger.LogInformation($"\nHandling {request.GetType().Name}\n");
+
         if (!_validators.Any())
         {
             return await next();

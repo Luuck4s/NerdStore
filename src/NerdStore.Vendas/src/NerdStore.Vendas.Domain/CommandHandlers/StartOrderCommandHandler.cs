@@ -34,7 +34,7 @@ public class StartOrderCommandHandler : IRequestHandler<StartOrderCommand, bool>
         order.Start();
 
         var itemsList = order.ItemOrders
-            .Select(i => new ItemOrderDto(i.Id, i.Quantity))
+            .Select(i => new ItemOrderDto(i.ProductId, i.Quantity))
             .ToList();
         var itemListOrder = new ItemOrderListDto(order.Id, itemsList);
 

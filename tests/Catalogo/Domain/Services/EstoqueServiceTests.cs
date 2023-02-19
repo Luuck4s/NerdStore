@@ -69,7 +69,7 @@ public class EstoqueServiceTests
         _repository.Setup(x => x.UnitOfWork.Commit())
             .ReturnsAsync(true);
         
-        var result = await _service.AddStock(product.Id, InitialInventory + 10);
+        var result = await _service.AddStock(product, InitialInventory + 10);
 
         Assert.NotEqual(InitialInventory, product.QuantityStock);
         Assert.True(result);

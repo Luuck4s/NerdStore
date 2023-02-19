@@ -13,12 +13,16 @@ public static class CommandsServiceCollectionExtensions
     {
         services.AddScoped<IRequestHandler<CreateOrderCommand, bool>, CreateOrderCommandHandler>();
         services.AddScoped<IRequestHandler<StartOrderCommand, bool>, StartOrderCommandHandler>();
+        services.AddScoped<IRequestHandler<CancelOrderCommand, bool>, CancelOrderCommandHandler>();
 
         services.AddScoped<IRequestHandler<AddItemOrderCommand, bool>, AddItemOrderCommandHandler>();
         services.AddScoped<IRequestHandler<UpdateItemOrderCommand, bool>, UpdateItemOrderCommandHandler>();
         services.AddScoped<IRequestHandler<DeleteItemOrderCommand, bool>, DeleteItemOrderCommandHandler>();
 
         services.AddScoped<IRequestHandler<AddVoucherCommand, bool>, AddVoucherCommandHandler>();
+        
+        services.AddScoped<IRequestHandler<EndOrderCommand, bool>, EndOrderCommandCommandHandler>();
+        services.AddScoped<IRequestHandler<CancelOrderReverseStockCommand, bool>, CancelOrderReverseStockCommandHandler>();
 
         AddValidators(services);
     }

@@ -5,4 +5,5 @@ namespace NerdStore.Api.Queries;
 public interface IProductQueries
 {
     Task<List<ProductResponse>> GetAllProducts();
+    Task<ProductResponse> GetProduct(Guid productId);
 }

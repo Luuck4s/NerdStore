@@ -30,7 +30,6 @@ public class ProductRepository: IProductRepository
         return await _context.Produtos
             .Include(p => p.Category)
             .Include(p => p.Dimensions)
-            .AsNoTracking()
             .FirstOrDefaultAsync(p => p.Id == id);
     }
 

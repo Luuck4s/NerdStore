@@ -1,24 +1,22 @@
 using MediatR;
+using NerdStore.Core.EventHandler;
 using NerdStore.Core.Events.IntegrationEvents.Order;
+using NerdStore.Vendas.Domain.Commands;
 using NerdStore.Vendas.Domain.Repository;
 
 namespace NerdStore.Vendas.Domain.EventHandlers;
 
 public class OrderStockRejectedEventHandler: INotificationHandler<OrderStockRejected>
 {
-    private readonly IOrderRepository _orderRepository;
+    private readonly IMediatRHandler _mediatRHandler;
 
-    public OrderStockRejectedEventHandler(IOrderRepository orderRepository)
+    public OrderStockRejectedEventHandler(IMediatRHandler mediatRHandler)
     {
-        _orderRepository = orderRepository;
+        _mediatRHandler = mediatRHandler;
     }
 
     public async Task Handle(OrderStockRejected notification, CancellationToken cancellationToken)
     {
-        var order = await _orderRepository.GetOrder(notification.AggregateId);
-        order!.Cancel();
-        
-        _orderRepository.Update(order);
-        await _orderRepository.UnitOfWork.Commit();
+        await _mediatRHandler.PublishCommand(new CancelOrderCommand(notification.AggregateId));
     }
 }

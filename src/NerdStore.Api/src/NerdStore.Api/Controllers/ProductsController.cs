@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NerdStore.Api.Contracts.Requests.Product;
+using NerdStore.Api.Contracts.Response.Product;
 using NerdStore.Api.Queries;
 using NerdStore.Catalogo.Domain.Entities;
 using NerdStore.Catalogo.Domain.Repositories;
@@ -32,16 +33,9 @@ public class ProductsController : ControllerBase
     }
     
     [HttpGet("{productId}")]
-    public async Task<IActionResult> GetById(Guid productId)
+    public async Task<ProductResponse> GetById(Guid productId)
     {
-        var product = await _productRepository.GetById(productId);
-
-        if (product is null)
-        {
-            return BadRequest("Product not found");
-        }
-        
-        return Ok(product);
+        return await _productQueries.GetProduct(productId);
     }
     
     [HttpPost("add-stock")]
@@ -54,7 +48,7 @@ public class ProductsController : ControllerBase
             return BadRequest("Product not found");
         }
 
-        await _stockService.AddStock(product.Id, request.Quantity);
+        await _stockService.AddStock(product!, request.Quantity);
         
         return Ok();
     }

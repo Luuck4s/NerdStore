@@ -6,6 +6,7 @@ using NerdStore.Catalogo.Domain.Entities;
 using NerdStore.Catalogo.Domain.EventHandlers;
 using NerdStore.Catalogo.Domain.Events;
 using NerdStore.Catalogo.Domain.Repositories;
+using NerdStore.Catalogo.Domain.Services;
 using Xunit;
 using static Moq.It;
 
@@ -19,7 +20,8 @@ public class ProdutoAbaixoEstoqueEventTests
     
     public ProdutoAbaixoEstoqueEventTests()
     {
-        _handler = new ProductEventHandler(_produtoRepository.Object, _logger.Object);
+        var stockService = new Mock<StockService>();
+        _handler = new ProductEventHandler(_produtoRepository.Object, _logger.Object, stockService.Object);
     }
     
     [Fact]

@@ -23,7 +23,7 @@ public class PaymentMapping: IEntityTypeConfiguration<Payment>
             .HasColumnType("varchar(16)");
         builder.Property(c => c.CardExpiration)
             .IsRequired()
-            .HasColumnType("varchar(10)");
+            .HasColumnType("varchar(25)");
 
         builder.HasOne(c => c.Transaction)
             .WithOne(c => c.Payment);

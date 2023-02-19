@@ -33,4 +33,26 @@ public class ProductQueries: IProductQueries
             }
         }).ToList();
     }
+
+    public async Task<ProductResponse> GetProduct(Guid productId)
+    {
+        var product = await _productRepository.GetById(productId);
+        return new ProductResponse
+        {
+            Id = product.Id,
+            Name = product.Name,
+            Description = product.Description,
+            IsActive = product.IsActive,
+            Amount = product.Amount,
+            CreationDate = product.CreationDate,
+            QuantityStock = product.QuantityStock,
+            CategoryId = product.CategoryId,
+            Dimensions = new DimensionsResponse
+            {
+                Width = product.Dimensions.Width,
+                Height = product.Dimensions.Height,
+                Depth = product.Dimensions.Width,
+            }
+        };
+    }
 }

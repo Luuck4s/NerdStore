@@ -1,3 +1,4 @@
+using System.Transactions;
 using NerdStore.Core.Dtos;
 using NerdStore.Core.EventHandler;
 using NerdStore.Core.Events.IntegrationEvents.Payment;
@@ -35,14 +36,17 @@ public class PaymentService: IPaymentService
             CardCvv = paymentOrderDto.CardCvv,
             CarNumber = paymentOrderDto.CarNumber,
             CardExpiration = paymentOrderDto.CardExpiration,
-            OrderId = paymentOrderDto.OrderId
+            OrderId = paymentOrderDto.OrderId,
+            Status = StatusTransaction.Pending.ToString(),
+            ClientId = paymentOrderDto.ClientId
         };
 
         var transaction = _paymentCreditCard.MakePayment(order, payment);
+        payment.Status = transaction.StatusTransaction.ToString();
 
         if (transaction.StatusTransaction is StatusTransaction.Paid)
         {
-            var @event = new PaymentSuccessful(order.Id, paymentOrderDto.ClientId, payment.Id, transaction.Id);
+            var @event = new PaymentSuccessful(payment.Id, paymentOrderDto.ClientId, payment.Id, transaction.Id, paymentOrderDto.OrderId);
             payment.AddEvent(@event);
 
             _paymentRepository.Add(payment);
@@ -52,7 +56,7 @@ public class PaymentService: IPaymentService
             return transaction;
         }
 
-        await _mediatRHandler.PublishEvent(new PaymentRejected(order.Id, transaction.Id));
+        await _mediatRHandler.PublishEvent(new PaymentRejected(payment.Id, transaction.Id, paymentOrderDto.OrderId));
         return transaction;
     }
 }
