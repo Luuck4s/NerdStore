@@ -1,4 +1,4 @@
-namespace NerdStore.Core.Message;
+namespace NerdStore.Core.Messages;
 
 public abstract class IMessage
 {

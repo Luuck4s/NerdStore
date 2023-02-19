@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using MediatR;
 using NerdStore.Core.Commands;
+using NerdStore.Core.Data.EventSourcing;
+using NerdStore.Core.Events;
 using NerdStore.Core.Messages;
 using NerdStore.Core.Notification;
 
@@ -10,15 +12,22 @@ namespace NerdStore.Core.EventHandler;
 public class MediatRHandler: IMediatRHandler
 {
     private readonly IMediator _mediator;
+    private readonly IEventSourcingRepository _eventSourcingRepository;
 
-    public MediatRHandler(IMediator mediator)
+    public MediatRHandler(IMediator mediator, IEventSourcingRepository eventSourcingRepository)
     {
         _mediator = mediator;
+        _eventSourcingRepository = eventSourcingRepository;
     }
 
-    public async Task PublishEvent<T>(T evento) where T : Event
+    public async Task PublishEvent<T>(T @event) where T : Event
     {
-        await _mediator.Publish(evento);
+        if (@event is not DomainEvent)
+        {
+            await _eventSourcingRepository.SaveEvent(@event);
+        }
+
+        await _mediator.Publish(@event);
     }
 
     public async Task PublishCommand<T>(T command) where T : ICommand

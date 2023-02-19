@@ -2,6 +2,7 @@ using MediatR;
 using NerdStore.Core.EventHandler;
 using NerdStore.Core.Notification;
 using NerdStore.Vendas.Domain.Commands;
+using NerdStore.Vendas.Domain.Events;
 using NerdStore.Vendas.Domain.Exceptions;
 using NerdStore.Vendas.Domain.Repository;
 
@@ -45,6 +46,7 @@ public class AddVoucherCommandHandler: IRequestHandler<AddVoucherCommand, bool>
         }
         
         order.ApplyDiscount(voucher);
+        order.AddEvent(new VoucherAdded(order.Id, voucher.Id));
         
         _orderRepository.Update(order);
 

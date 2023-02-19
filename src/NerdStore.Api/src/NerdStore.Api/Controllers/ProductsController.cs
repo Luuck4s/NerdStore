@@ -7,6 +7,7 @@ using NerdStore.Catalogo.Domain.Repositories;
 using NerdStore.Catalogo.Domain.Services;
 using NerdStore.Catalogo.Domain.ValueObjects;
 using NerdStore.Core.Contracts.Results;
+using NerdStore.Core.Data.EventSourcing;
 
 namespace NerdStore.Api.Controllers;
 
@@ -17,12 +18,14 @@ public class ProductsController : ControllerBase
     private IProductQueries _productQueries;
     private IProductRepository _productRepository;
     private IStockService _stockService;
+    private readonly IEventSourcingRepository _eventSourcingRepository;
 
-    public ProductsController(IProductQueries productQueries, IStockService stockService, IProductRepository productRepository)
+    public ProductsController(IProductQueries productQueries, IStockService stockService, IProductRepository productRepository, IEventSourcingRepository eventSourcingRepository)
     {
         _productQueries = productQueries;
         _stockService = stockService;
         _productRepository = productRepository;
+        _eventSourcingRepository = eventSourcingRepository;
     }
     
     [HttpGet]
@@ -36,6 +39,12 @@ public class ProductsController : ControllerBase
     public async Task<ProductResponse> GetById(Guid productId)
     {
         return await _productQueries.GetProduct(productId);
+    }
+    
+    [HttpGet("{productId}/events")]
+    public async Task<IEnumerable<StoredEvent>> GetEvents(Guid productId)
+    {
+        return await _eventSourcingRepository.GetEvents(productId);
     }
     
     [HttpPost("add-stock")]

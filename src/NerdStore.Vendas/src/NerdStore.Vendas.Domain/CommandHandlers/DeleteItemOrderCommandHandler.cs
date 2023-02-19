@@ -2,6 +2,7 @@ using MediatR;
 using NerdStore.Core.EventHandler;
 using NerdStore.Core.Notification;
 using NerdStore.Vendas.Domain.Commands;
+using NerdStore.Vendas.Domain.Events;
 using NerdStore.Vendas.Domain.Exceptions;
 using NerdStore.Vendas.Domain.Repository;
 
@@ -30,6 +31,7 @@ public class DeleteItemOrderCommandHandler: IRequestHandler<DeleteItemOrderComma
 
         var itemOrder = await _orderRepository.GetItemOrderByOrderAndProduct(order.Id, request.ProductId);
         order.RemoveItem(itemOrder!);
+        order.AddEvent(new ItemOrderRemoved(request.ProductId, request.OrderId));
 
         _orderRepository.UpdateItemOrder(itemOrder!);
         _orderRepository.Update(order);

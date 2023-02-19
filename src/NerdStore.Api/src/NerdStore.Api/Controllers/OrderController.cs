@@ -3,6 +3,7 @@ using NerdStore.Api.Contracts.Requests.Order;
 using NerdStore.Api.Contracts.Response.Order;
 using NerdStore.Api.Queries;
 using NerdStore.Core.Contracts.Results;
+using NerdStore.Core.Data.EventSourcing;
 using NerdStore.Core.EventHandler;
 using NerdStore.Vendas.Domain.Commands;
 
@@ -14,11 +15,13 @@ public class OrderController: ControllerBase
 {
     private readonly IMediatRHandler _mediator;
     private readonly IOrderQueries _orderQueries;
+    private readonly IEventSourcingRepository _eventSourcingRepository;
 
-    public OrderController(IMediatRHandler mediator, IOrderQueries orderQueries)
+    public OrderController(IMediatRHandler mediator, IOrderQueries orderQueries, IEventSourcingRepository eventSourcingRepository)
     {
         _mediator = mediator;
         _orderQueries = orderQueries;
+        _eventSourcingRepository = eventSourcingRepository;
     }
     
     [HttpGet("get-all")]
@@ -31,6 +34,12 @@ public class OrderController: ControllerBase
     public async Task<OrderResponse> GetOrder(Guid id)
     {
         return await _orderQueries.GetOrder(id);
+    }
+    
+    [HttpGet("{id}/events")]
+    public async Task<IEnumerable<StoredEvent>> GetEvents(Guid id)
+    {
+        return await _eventSourcingRepository.GetEvents(id);
     }
     
     [HttpPost]

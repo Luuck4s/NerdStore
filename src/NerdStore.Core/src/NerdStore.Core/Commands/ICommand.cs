@@ -1,5 +1,5 @@
 using MediatR;
-using NerdStore.Core.Message;
+using NerdStore.Core.Messages;
 
 namespace NerdStore.Core.Commands;
 

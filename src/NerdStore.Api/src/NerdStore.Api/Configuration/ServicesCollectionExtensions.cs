@@ -1,7 +1,10 @@
+using EventSourcing.Repository;
+using EventSourcing.Services;
 using MediatR;
 using NerdStore.Catalogo.Data.Repositories;
 using NerdStore.Catalogo.Domain.Repositories;
 using NerdStore.Catalogo.Domain.Services;
+using NerdStore.Core.Data.EventSourcing;
 using NerdStore.Core.EventHandler;
 using NerdStore.Pagamentos.AntiCorruption.Configuration;
 using NerdStore.Pagamentos.AntiCorruption.Facades;
@@ -32,6 +35,9 @@ public static class ServicesCollectionExtensions
 
         service.AddScoped<IPagarmeGateway, PagarmeGateway>();
         service.AddScoped<IPaymentCreditCardFacade, PaymentCreditCardFacade>();
+        
+        service.AddSingleton<IEventStoreService, EventStoreService>();
+        service.AddSingleton<IEventSourcingRepository, EventSourcingRepository>();
 
         service.AddScoped<ConfigManager>();
     }
