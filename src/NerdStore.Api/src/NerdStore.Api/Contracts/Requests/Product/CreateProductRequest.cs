@@ -35,7 +35,7 @@ public class CreateProductRequest : Notifiable<Notification>
                     Image,
                     "Produto.Imagem",
                     "Imagem não pode ser nulo ou vazio")
-                .AreEquals(
+                .AreNotEquals(
                     CategoryId,
                     Guid.Empty,
                     "Produto.CategoriaId",

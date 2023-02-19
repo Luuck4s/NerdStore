@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NerdStore.Catalogo.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class UpdateDimensions : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,6 +22,20 @@ namespace NerdStore.Catalogo.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categorias", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Dimensions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Altura = table.Column<int>(type: "int", nullable: false),
+                    Largura = table.Column<int>(type: "int", nullable: false),
+                    Profundidade = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Dimensions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -47,24 +61,10 @@ namespace NerdStore.Catalogo.Data.Migrations
                         principalTable: "Categorias",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Dimensions",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Altura = table.Column<int>(type: "int", nullable: false),
-                    Largura = table.Column<int>(type: "int", nullable: false),
-                    Profundidade = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Dimensions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Dimensions_Produtos_Id",
+                        name: "FK_Produtos_Dimensions_Id",
                         column: x => x.Id,
-                        principalTable: "Produtos",
+                        principalTable: "Dimensions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -79,13 +79,13 @@ namespace NerdStore.Catalogo.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Dimensions");
-
-            migrationBuilder.DropTable(
                 name: "Produtos");
 
             migrationBuilder.DropTable(
                 name: "Categorias");
+
+            migrationBuilder.DropTable(
+                name: "Dimensions");
         }
     }
 }

@@ -24,6 +24,13 @@ public class ProductQueries: IProductQueries
             Amount = x.Amount,
             CreationDate = x.CreationDate,
             QuantityStock = x.QuantityStock,
+            CategoryId = x.CategoryId,
+            Dimensions = new DimensionsResponse
+            {
+                Width = x.Dimensions.Width,
+                Height = x.Dimensions.Height,
+                Depth = x.Dimensions.Width,
+            }
         }).ToList();
     }
 }

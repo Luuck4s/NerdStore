@@ -2,8 +2,8 @@
 using NerdStore.Catalogo.Domain.Entities;
 using NerdStore.Catalogo.Domain.Events;
 using NerdStore.Catalogo.Domain.Repositories;
+using NerdStore.Core.Dtos;
 using NerdStore.Core.EventHandler;
-using NerdStore.Core.Events.IntegrationEvents.Order.DTOs;
 
 namespace NerdStore.Catalogo.Domain.Services;
 

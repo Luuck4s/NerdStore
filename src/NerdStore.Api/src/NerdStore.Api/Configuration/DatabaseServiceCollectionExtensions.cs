@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using NerdStore.Api.Settings;
 using NerdStore.Catalogo.Data.Contexts;
+using NerdStore.Pagamentos.Data.Context;
 using NerdStore.Vendas.Data.Contexts;
 
 namespace NerdStore.Api.Configuration;
@@ -21,6 +22,10 @@ public static class DatabaseServiceCollectionExtensions
                 opt =>
                     opt.UseInMemoryDatabase("Database")
             );
+            services.AddDbContext<PaymentContext>(
+                opt =>
+                    opt.UseInMemoryDatabase("Database")
+            );
         }
         else
         {
@@ -29,6 +34,10 @@ public static class DatabaseServiceCollectionExtensions
                     opt.UseSqlServer(databaseSettings.ConnectionString)
             );
             services.AddDbContext<VendasContext>(
+                opt =>
+                    opt.UseSqlServer(databaseSettings.ConnectionString)
+            );  
+            services.AddDbContext<PaymentContext>(
                 opt =>
                     opt.UseSqlServer(databaseSettings.ConnectionString)
             );  

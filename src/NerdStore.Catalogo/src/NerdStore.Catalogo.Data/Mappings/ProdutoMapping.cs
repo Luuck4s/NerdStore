@@ -23,10 +23,13 @@ public class ProdutoMapping: IEntityTypeConfiguration<Product>
         builder.Property(c => c.Amount)
             .IsRequired()
             .HasColumnType("decimal(10,2)");
+        
+        builder.HasOne(p => p.Category)
+            .WithMany(c => c.Products)
+            .HasForeignKey(p => p.CategoryId);
 
-        builder
-            .HasOne(p => p.Dimensions)
+        builder.HasOne(p => p.Dimensions)
             .WithOne(d => d.Product)
-            .HasForeignKey<Dimensions>(d => d.Id);
+            .HasForeignKey<Product>(p => p.Id);
     }
 }

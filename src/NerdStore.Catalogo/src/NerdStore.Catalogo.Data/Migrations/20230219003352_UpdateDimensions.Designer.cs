@@ -12,8 +12,8 @@ using NerdStore.Catalogo.Data.Contexts;
 namespace NerdStore.Catalogo.Data.Migrations
 {
     [DbContext(typeof(CatalogContext))]
-    [Migration("20230103003025_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230219003352_UpdateDimensions")]
+    partial class UpdateDimensions
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,7 +46,6 @@ namespace NerdStore.Catalogo.Data.Migrations
             modelBuilder.Entity("NerdStore.Catalogo.Domain.Entities.Product", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
@@ -86,6 +85,7 @@ namespace NerdStore.Catalogo.Data.Migrations
             modelBuilder.Entity("NerdStore.Catalogo.Domain.ValueObjects.Dimensions", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Depth")
@@ -113,18 +113,15 @@ namespace NerdStore.Catalogo.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("NerdStore.Catalogo.Domain.ValueObjects.Dimensions", b =>
-                {
-                    b.HasOne("NerdStore.Catalogo.Domain.Entities.Product", "Product")
-                        .WithOne("Dimensions")
-                        .HasForeignKey("NerdStore.Catalogo.Domain.ValueObjects.Dimensions", "Id")
+                    b.HasOne("NerdStore.Catalogo.Domain.ValueObjects.Dimensions", "Dimensions")
+                        .WithOne("Product")
+                        .HasForeignKey("NerdStore.Catalogo.Domain.Entities.Product", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Product");
+                    b.Navigation("Category");
+
+                    b.Navigation("Dimensions");
                 });
 
             modelBuilder.Entity("NerdStore.Catalogo.Domain.Entities.Category", b =>
@@ -132,10 +129,9 @@ namespace NerdStore.Catalogo.Data.Migrations
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("NerdStore.Catalogo.Domain.Entities.Product", b =>
+            modelBuilder.Entity("NerdStore.Catalogo.Domain.ValueObjects.Dimensions", b =>
                 {
-                    b.Navigation("Dimensions")
-                        .IsRequired();
+                    b.Navigation("Product");
                 });
 #pragma warning restore 612, 618
         }

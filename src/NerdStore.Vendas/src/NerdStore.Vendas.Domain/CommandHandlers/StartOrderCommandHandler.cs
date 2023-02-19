@@ -1,7 +1,7 @@
 using MediatR;
+using NerdStore.Core.Dtos;
 using NerdStore.Core.EventHandler;
 using NerdStore.Core.Events.IntegrationEvents.Order;
-using NerdStore.Core.Events.IntegrationEvents.Order.DTOs;
 using NerdStore.Core.Notification;
 using NerdStore.Vendas.Domain.Commands;
 using NerdStore.Vendas.Domain.Exceptions;

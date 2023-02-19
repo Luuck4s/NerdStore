@@ -1,4 +1,4 @@
-using NerdStore.Core.Events.IntegrationEvents.Order.DTOs;
+using NerdStore.Core.Dtos;
 
 namespace NerdStore.Core.Events.IntegrationEvents.Order;
 

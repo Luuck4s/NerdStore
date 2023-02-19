@@ -5,6 +5,7 @@ using NerdStore.Catalogo.Domain.Entities;
 using NerdStore.Catalogo.Domain.Repositories;
 using NerdStore.Catalogo.Domain.Services;
 using NerdStore.Catalogo.Domain.ValueObjects;
+using NerdStore.Core.Contracts.Results;
 
 namespace NerdStore.Api.Controllers;
 
@@ -79,13 +80,13 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateProduct([FromBody] CreateProductRequest request)
+    public async Task<GenericCommandResult> CreateProduct([FromBody] CreateProductRequest request)
     {
         request.Validate();
 
         if (request.IsValid is false)
         {
-            return BadRequest(request.Notifications);
+            return await Task.FromResult(new GenericCommandResult(request.Notifications));
         }
 
         var product = new Product(
@@ -102,6 +103,6 @@ public class ProductsController : ControllerBase
         _productRepository.Add(product);
         await _productRepository.UnitOfWork.Commit();
 
-        return Ok(product);
+        return await Task.FromResult(new GenericCommandResult(product.Id));
     }
 }

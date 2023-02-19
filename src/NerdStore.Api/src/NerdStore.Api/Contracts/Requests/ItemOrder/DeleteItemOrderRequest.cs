@@ -1,4 +1,4 @@
-namespace NerdStore.Api.Contracts.Requests.Product;
+namespace NerdStore.Api.Contracts.Requests.ItemOrder;
 
 public class DeleteItemOrderRequest
 {

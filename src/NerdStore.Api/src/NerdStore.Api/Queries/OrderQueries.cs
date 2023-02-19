@@ -1,9 +1,8 @@
 using NerdStore.Api.Contracts.Response.ItemOrder;
 using NerdStore.Api.Contracts.Response.Order;
-using NerdStore.Api.Queries;
 using NerdStore.Vendas.Domain.Repository;
 
-namespace NerdStore.Vendas.Api.Queries;
+namespace NerdStore.Api.Queries;
 
 public class OrderQueries: IOrderQueries
 {
