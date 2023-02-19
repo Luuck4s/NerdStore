@@ -14,4 +14,9 @@ public class Payment: Entity, IAggregateRoot
     public string CardCvv { get;  set; }
 
     public Transaction Transaction { get; set; }
+
+    public void ChangeStatus(string status)
+    {
+        Status = status;
+    }
 }

@@ -42,21 +42,22 @@ public class PaymentService: IPaymentService
         };
 
         var transaction = _paymentCreditCard.MakePayment(order, payment);
-        payment.Status = transaction.StatusTransaction.ToString();
+        payment.ChangeStatus(transaction.StatusTransaction.ToString());
 
         if (transaction.StatusTransaction is StatusTransaction.Paid)
         {
             var @event = new PaymentSuccessful(payment.Id, paymentOrderDto.ClientId, payment.Id, transaction.Id, paymentOrderDto.OrderId);
             payment.AddEvent(@event);
-
-            _paymentRepository.Add(payment);
-            _paymentRepository.AddTransaction(transaction);
-
-            await _paymentRepository.UnitOfWork.Commit();
-            return transaction;
+        }
+        else
+        {
+            await _mediatRHandler.PublishEvent(new PaymentRejected(payment.Id, transaction.Id, paymentOrderDto.OrderId));
         }
 
-        await _mediatRHandler.PublishEvent(new PaymentRejected(payment.Id, transaction.Id, paymentOrderDto.OrderId));
+        _paymentRepository.Add(payment);
+        _paymentRepository.AddTransaction(transaction);
+
+        await _paymentRepository.UnitOfWork.Commit();
         return transaction;
     }
 }
